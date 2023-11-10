@@ -26,8 +26,8 @@ A Node.js script that checks the status codes of multiple endpoints given a base
 3. [Optional] Create a `.env` file in the project root with the following content if the server uses a self-signed certificate:
 
    ```env
-   CERTIFICATE_PATH=/path/to/your/development/certificate.pem
-   KEY_PATH=/path/to/your/development/key.pem
+   CERTIFICATE_PATH=/path/to/your/development/cert.crt
+   KEY_PATH=/path/to/your/development/cert.key
    ```
 
    Replace `/path/to/your/development/certificate.pem` and `/path/to/your/development/key.pem` with the actual paths to your development certificate and key files.
@@ -40,16 +40,25 @@ A Node.js script that checks the status codes of multiple endpoints given a base
 
    Replace `<base_url>` with the base URL of your server and `[paths_json_file]` with the optional path to your JSON file containing the list of endpoints. If not specified, the script will use `paths.json` by default.
 
-   Example:
+   **Examples:**
 
-   ```bash
-   node index.js https://github.com
-   ```
+   - Using default paths JSON file:
 
-   ```bash
-   node index.js https://github.com custom-paths.json
-   ```
+      ```bash
+      node index.js https://github.com
+      ```
 
+   - Using custom paths JSON file:
+
+      ```bash
+      node index.js https://github.com custom-paths.json
+      ```
+
+   - Using custom paths JSON file and development certificate:
+
+      ```bash
+      node index.js https://github.com custom-paths.json true
+      ```
 
 5. **Output**
 
