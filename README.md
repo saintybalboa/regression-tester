@@ -35,7 +35,7 @@ A Node.js script that checks the status codes of multiple endpoints given a base
 4. Run the script:
 
    ```bash
-   node index.js <base_url> [paths_json_file] [use_dev_certificate]
+   node index.js -u <base_url> -p [paths_json_file] -c [use_dev_certificate] -h [headers_json_string]
    ```
 
    Replace `<base_url>` with the base URL of your server and `[paths_json_file]` with the optional path to your JSON file containing the list of endpoints. If not specified, the script will use `paths.json` by default.
@@ -59,6 +59,11 @@ A Node.js script that checks the status codes of multiple endpoints given a base
       ```bash
       node index.js -u https://github.com -p custom-paths.json -c true
       ```
+
+   - Using custom paths JSON file, client certificate and custom headers:
+
+      ```bash
+      node index.js -u https://github.com -p custom-paths.json -c true -h '{"ctx-service-env": "test"}'
 
 5. **Output**
 

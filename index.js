@@ -37,7 +37,8 @@ async function readPathsFromFile(filePath) {
 async function verifyEndpoints() {
   const { cert, key } = useClientCert ? await getCerts() : {};
   const sslOpts = { cert, key, rejectUnauthorized: false }; // rejectUnauthorized: false is needed for self-signed certificates
-  const axiosConfig = getAxiosConfig({ headers, sslOpts });
+  const customHeaders = headers ? JSON.parse(headers) : {};
+  const axiosConfig = getAxiosConfig({ headers: customHeaders, sslOpts });
   const paths = await readPathsFromFile(pathsFile);
 
   for (const path of paths) {
