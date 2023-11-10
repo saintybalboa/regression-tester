@@ -1,10 +1,10 @@
 #!/usr/bin/env node
 import axios from 'axios';
 import chalk from 'chalk';
-import https from 'https';
 import dotenv from 'dotenv';
-import * as Commander from 'commander';
 import fs from 'fs/promises';
+import * as Commander from 'commander';
+import { getCerts, getAxiosConfig } from './helpers.js';
 
 const program = new Commander.Command();
 
@@ -12,9 +12,10 @@ program
   .option('-u, --url [baseUrl]', 'Base URL of the server')
   .option('-p, --paths [pathsFile]', 'Path to the JSON file containing the list of endpoints', 'paths.json')
   .option('-c, --use-client-cert [useClientCert]', 'Use development certificate')
+  .option('-h, --headers [headers]', 'Custom request headers as a JSON string')
   .parse(process.argv);
 
-const { url: baseUrl, paths: pathsFile, useClientCert } = program.opts();
+const { url: baseUrl, paths: pathsFile, useClientCert, headers } = program.opts();
 
 if (!baseUrl) {
   console.error('Usage: node script.js -u <base_url> [-p paths_json_file] [-c use_dev_cert]');
@@ -34,22 +35,10 @@ async function readPathsFromFile(filePath) {
 }
 
 async function verifyEndpoints() {
+  const { cert, key } = useClientCert ? await getCerts() : {};
+  const sslOpts = { cert, key, rejectUnauthorized: false }; // rejectUnauthorized: false is needed for self-signed certificates
+  const axiosConfig = getAxiosConfig({ headers, sslOpts });
   const paths = await readPathsFromFile(pathsFile);
-  let axiosConfig;
-
-  if (useClientCert) {
-    const cert = await fs.readFile(process.env.CERTIFICATE_PATH);
-    const key = await fs.readFile(process.env.KEY_PATH);
-    const agent = new https.Agent({
-      cert,
-      key,
-      rejectUnauthorized: false,  // Disable certificate verification
-    });
-
-    axiosConfig = {
-      httpsAgent: agent
-    };
-  }
 
   for (const path of paths) {
     const url = baseUrl + path;
