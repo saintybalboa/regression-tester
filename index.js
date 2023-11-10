@@ -3,14 +3,21 @@ import axios from 'axios';
 import chalk from 'chalk';
 import https from 'https';
 import dotenv from 'dotenv';
+import * as Commander from 'commander';
 import fs from 'fs/promises';
 
-const baseUrl = process.argv[2];
-const pathsFile = process.argv[3] || 'paths.json';
-const useDevCert = process.argv[4] || false;
+const program = new Commander.Command();
+
+program
+  .option('-u, --url [baseUrl]', 'Base URL of the server')
+  .option('-p, --paths [pathsFile]', 'Path to the JSON file containing the list of endpoints', 'paths.json')
+  .option('-c, --use-client-cert [useClientCert]', 'Use development certificate')
+  .parse(process.argv);
+
+const { url: baseUrl, paths: pathsFile, useClientCert } = program.opts();
 
 if (!baseUrl) {
-  console.error('Usage: node script.js <base_url> [paths_json_file] [use_dev_cert]');
+  console.error('Usage: node script.js -u <base_url> [-p paths_json_file] [-c use_dev_cert]');
   process.exit(1);
 }
 
@@ -26,12 +33,11 @@ async function readPathsFromFile(filePath) {
   }
 }
 
-
 async function verifyEndpoints() {
   const paths = await readPathsFromFile(pathsFile);
   let axiosConfig;
 
-  if (useDevCert) {
+  if (useClientCert) {
     const cert = await fs.readFile(process.env.CERTIFICATE_PATH);
     const key = await fs.readFile(process.env.KEY_PATH);
     const agent = new https.Agent({

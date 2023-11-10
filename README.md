@@ -45,19 +45,19 @@ A Node.js script that checks the status codes of multiple endpoints given a base
    - Using default paths JSON file:
 
       ```bash
-      node index.js https://github.com
+      node index.js -u https://github.com
       ```
 
    - Using custom paths JSON file:
 
       ```bash
-      node index.js https://github.com custom-paths.json
+      node index.js -u https://github.com -p custom-paths.json
       ```
 
-   - Using custom paths JSON file and development certificate:
+   - Using custom paths JSON file and client certificate:
 
       ```bash
-      node index.js https://github.com custom-paths.json true
+      node index.js -u https://github.com -p custom-paths.json -c true
       ```
 
 5. **Output**
