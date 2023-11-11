@@ -28,7 +28,7 @@ A Node.js script that checks the status codes of multiple endpoints given a base
    KEY_PATH=/path/to/your/development/cert.key
    ```
 
-   Replace `/path/to/your/development/certificate.pem` and `/path/to/your/development/key.pem` with the actual paths to your development certificate and key files.
+   Replace `/path/to/your/development/cert.crt` and `/path/to/your/development/cert.key` with the actual paths to your development certificate and key files.
 
 4. Run the script:
 
