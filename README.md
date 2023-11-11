@@ -4,8 +4,6 @@ A Node.js script that checks the status codes of multiple endpoints given a base
 
 ## Prerequisites
 
-- Node.js installed (version 10 or higher)
-- npm (Node Package Manager)
 - Paths JSON file containing the list of endpoints (default: `paths.json`)
 
 ## Usage
