@@ -131,3 +131,6 @@ dist
 
 # Ignore paths files
 *-paths.json
+
+# Ignore local docs
+regression-scripts.md
